@@ -1,9 +1,9 @@
 import datetime
-import json
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
+import GetOldTweets3 as got
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,10 +13,6 @@ parser = reqparse.RequestParser()
 parser.add_argument('data', required=True, help="Need tweet data to perform sentiment analysis!")
 parser.add_argument('num_tweets', required=True, help="Enter the number of tweets you need")
 
-
-# TODO : Clean the scrapped tweets and convert to json before returning
-# TODO : Add historical tweet parser using GetOldTweets library
-# TODO : ApI provides various kinds of parsing service on Twitter
 
 class TweetScrapSNS(Resource):
     def get(self):
@@ -30,7 +26,8 @@ class TweetScrapSNS(Resource):
         for i, tweet in enumerate(sntwitter.TwitterSearchScraper(query).get_items()):
             if i > max_tweets:
                 break
-            tweets_list.append({'date':str(tweet.date), 'id':str(tweet.id), 'content':str(tweet.content),'username':str(tweet.username),'tweet_url':tweet.url})
+            tweets_list.append({'date': str(tweet.date), 'id': str(tweet.id), 'content': str(tweet.content),
+                                'username': str(tweet.username), 'tweet_url': tweet.url})
         return tweets_list
 
     def get_json_from_pd(self, tweets):
