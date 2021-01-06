@@ -3,7 +3,6 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
-import GetOldTweets3 as got
 
 app = Flask(__name__)
 api = Api(app)
