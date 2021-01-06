@@ -30,8 +30,8 @@ class TweetScrapSNS(Resource):
         for i, tweet in enumerate(sntwitter.TwitterSearchScraper(query).get_items()):
             if i > max_tweets:
                 break
-            tweets_list.append([tweet.date, tweet.id, tweet.content,tweet.id,tweet.username])
-        return json.dumps(tweets_list, default=self.convert_datetime_str)
+            tweets_list.append({'date':str(tweet.date), 'id':str(tweet.id), 'content':str(tweet.content),'username':str(tweet.username),'tweet_url':tweet.url})
+        return tweets_list
 
     def get_json_from_pd(self, tweets):
         tweets_df = pd.DataFrame(tweets, columns=['Datetime', 'Tweet Id', 'Text', 'Username'])
